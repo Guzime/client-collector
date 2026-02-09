@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/client"
+  },
+  "response": {
+    "status": 200,
+    "body": "{ \"clientId\": \"cl-{{randomInt min=100000 max=999999}}\" }",
+    "transformers": ["response-template"],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
