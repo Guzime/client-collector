@@ -5,8 +5,12 @@
   },
   "response": {
     "status": 200,
-    "body": "{ \"clientId\": \"cl-{{randomInt min=100000 max=999999}}\" }",
     "transformers": ["response-template"],
+    "jsonBody": {
+      "clientId": "in-{{randomInt min=100000 max=999999}}",
+      "externalId": "ext-{{randomInt min=100000 max=999999}}",
+      "firstName": "{{pickRandom 'Ivan' 'Petr' 'Alexey' 'Olga' 'Anna'}}"
+    },
     "headers": {
       "Content-Type": "application/json"
     }
