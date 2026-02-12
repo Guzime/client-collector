@@ -7,10 +7,31 @@
     "status": 200,
     "transformers": ["response-template"],
     "jsonBody": {
-      "clientId": "in-{{randomInt min=100000 max=999999}}",
-      "externalId": "ext-{{randomInt min=100000 max=999999}}",
-      "firstName": "{{pickRandom 'Ivan' 'Petr' 'Alexey' 'Olga' 'Anna'}}"
-    },
+      "clientId": "in-{{randomInt lower=100000 upper=999999}}",
+      "externalId": "ext-{{randomInt lower=100000 upper=999999}}",
+      "firstName": "{{pickRandom 'Петр' 'Иван' 'Алексей' 'Ольга' 'Анна' 'Мария' 'Екатерина' 'Дмитрий' 'Сергей' 'Николай' 'Андрей' 'Елена' 'Татьяна' 'Наталья'}}",
+      "lastName": "{{pickRandom 'Иванов' 'Петров' 'Сидоров' 'Смирнов' 'Кузнецов' 'Васильев' 'Морозов' 'Новиков' 'Федоров' 'Михайлов'}}",
+      "middleName": "{{pickRandom 'Петрович' 'Иванович' 'Алексеевич' 'Дмитриевич' 'Сергеевич' 'Николаевич' 'Андреевич' 'Петровна' 'Ивановна' 'Алексеевна' 'Дмитриевна' 'Сергеевна' 'Николаевна' 'Андреевна'}}",
+      "birthDate": "19{{randomInt lower=70 upper=99}}-{{randomInt lower=10 upper=12}}-{{randomInt lower=10 upper=28}}",
+      "taxId": "{{randomInt lower=100000 upper=999999}}",
+      "passportNumber": "{{randomInt lower=10000000 upper=99999999}}",
+      "email": "{{pickRandom 'ivan' 'petr' 'alexey' 'anna' 'olga'}}.{{pickRandom 'petrov' 'ivanov' 'sidorov'}}@{{pickRandom 'bank.example' 'mail.example' 'example.com'}}",
+      "phone": "+79{{randomInt lower=100000000 upper=999999999}}",
+      "residencyCountry": "{{pickRandom 'RU' 'KZ' 'BY' 'AM'}}",
+      "accountNumber": "40817{{randomInt lower=100000000 upper=999999999}}",
+      "accountCurrency": "{{pickRandom 'RUB' 'USD' 'EUR'}}",
+      "accountBalance": "{{randomInt lower=1000 upper=1000000}}",
+      "availableBalance": "{{randomInt lower=0 upper=800000}}",
+      "creditLimit": "{{randomInt lower=0 upper=300000}}",
+      "debtAmount": "{{randomInt lower=0 upper=200000}}",
+      "riskScore": "{{randomInt lower=0 upper=100}}",
+      "kycStatus": "{{pickRandom 'PASSED' 'PENDING' 'FAILED'}}",
+      "amlFlag": "{{pickRandom true false}}",
+      "active": "{{pickRandom true false}}",
+      "blocked": "{{pickRandom true false}}",
+      "createdAt": "20{{randomInt lower=20 upper=23}}-{{randomInt lower=10 upper=12}}-{{randomInt lower=10 upper=28}}",
+      "updatedAt": "20{{randomInt lower=24 upper=26}}-{{randomInt lower=10 upper=12}}-{{randomInt lower=10 upper=28}}"
+},
     "headers": {
       "Content-Type": "application/json"
     }
