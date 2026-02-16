@@ -20,9 +20,6 @@ public class FinancialClientDto {
     @JsonProperty("externalId")
     private String externalId;
 
-    @JsonProperty("clientType")
-    private String clientType;
-
     @JsonProperty("firstName")
     private String firstName;
 
