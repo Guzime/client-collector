@@ -1,26 +1,25 @@
 package ru.tolmachev.clientcollector.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 import ru.tolmachev.clientcollector.domain.FinancialClientDto;
-import ru.tolmachev.clientcollector.domain.KycStatus;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import ru.tolmachev.clientcollector.service.Collector;
 
 @Slf4j
-@Service
 @RestController
 public class ClientController {
 
+    private final Collector collector;
+
+    public ClientController(@Autowired Collector collector) {
+        this.collector = collector;
+    }
+
     @GetMapping("/start")
     public ResponseEntity<FinancialClientDto> startLoad() {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<FinancialClientDto> generateClient = restTemplate.getForEntity("http://localhost:8089/client", FinancialClientDto.class);
-        return ResponseEntity.ok(generateClient.getBody());
+        return ResponseEntity.ok(collector.load());
     }
 }
