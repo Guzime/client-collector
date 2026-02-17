@@ -38,6 +38,7 @@ public class Collector {
                 .thenApply(clients::add)
                 .supplyAsync(this::load)
                 .thenApply(clients::add);
+        log.info("Before call future.get()");
         future.get();
         return clients;
     }
