@@ -1,0 +1,41 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/account"
+  },
+  "response": {
+    "status": 200,
+    "transformers": [
+      "response-template"
+    ],
+    "jsonBody": [
+      {
+        "accountNumber": "40817{{randomInt lower=100000000 upper=999999999}}",
+        "accountCurrency": "{{pickRandom 'RUB' 'USD' 'EUR'}}",
+        "accountBalance": "{{randomInt lower=1000 upper=1000000}}",
+        "availableBalance": "{{randomInt lower=0 upper=800000}}",
+        "creditLimit": "{{randomInt lower=0 upper=300000}}",
+        "debtAmount": "{{randomInt lower=0 upper=200000}}"
+      },
+      {
+        "accountNumber": "40817{{randomInt lower=100000000 upper=999999999}}",
+        "accountCurrency": "{{pickRandom 'RUB' 'USD' 'EUR'}}",
+        "accountBalance": "{{randomInt lower=1000 upper=1000000}}",
+        "availableBalance": "{{randomInt lower=0 upper=800000}}",
+        "creditLimit": "{{randomInt lower=0 upper=300000}}",
+        "debtAmount": "{{randomInt lower=0 upper=200000}}"
+      },
+      {
+        "accountNumber": "40817{{randomInt lower=100000000 upper=999999999}}",
+        "accountCurrency": "{{pickRandom 'RUB' 'USD' 'EUR'}}",
+        "accountBalance": "{{randomInt lower=1000 upper=1000000}}",
+        "availableBalance": "{{randomInt lower=0 upper=800000}}",
+        "creditLimit": "{{randomInt lower=0 upper=300000}}",
+        "debtAmount": "{{randomInt lower=0 upper=200000}}"
+      }
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

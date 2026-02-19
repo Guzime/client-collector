@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.tolmachev.clientcollector.domain.AccountDto;
 import ru.tolmachev.clientcollector.domain.FinancialClientDto;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,7 +21,7 @@ public class Collector {
     // 1. CompletableFuture + threadPool
     // 2. Virtual Threads
     // 3. Web Client
-    public FinancialClientDto load() {
+    public FinancialClientDto getClient() {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<FinancialClientDto> generateClient = restTemplate
                 .getForEntity("http://localhost:8089/client", FinancialClientDto.class);
@@ -27,19 +29,35 @@ public class Collector {
         return generateClient.getBody();
     }
 
+    public List<AccountDto> getAccount() {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<AccountDto[]> generateClient = restTemplate
+                .getForEntity("http://localhost:8089/account", AccountDto[].class);
+        log.info("Accept response {}", generateClient);
+        return Arrays.asList(generateClient.getBody());
+    }
+
     //todo ненадо цепочку вызово делать
     @SneakyThrows
     public List<FinancialClientDto> async() {
+        log.info("Before call future");
         List<FinancialClientDto> clients = new ArrayList<>();
-        CompletableFuture<Boolean> future = CompletableFuture
-                .supplyAsync(this::load)
-                .thenApply(clients::add)
-                .supplyAsync(this::load)
-                .thenApply(clients::add)
-                .supplyAsync(this::load)
-                .thenApply(clients::add);
-        log.info("Before call future.get()");
-        future.get();
+        CompletableFuture<FinancialClientDto> futureClient = CompletableFuture
+                .supplyAsync(this::getClient);
+        CompletableFuture<List<AccountDto>> futureAccount = CompletableFuture
+                .supplyAsync(this::getAccount);
+
+        CompletableFuture.allOf(futureAccount, futureClient)
+                        .thenApply(x -> {
+                            FinancialClientDto financialClientDto = futureClient.join();
+                            List<AccountDto> accounts = futureAccount.join();
+                            financialClientDto.setAccounts(accounts);
+                            return financialClientDto;
+                        });
+
+        Thread.sleep(2000);
+        log.info("It's time to wakeup!");
+
         return clients;
     }
 }

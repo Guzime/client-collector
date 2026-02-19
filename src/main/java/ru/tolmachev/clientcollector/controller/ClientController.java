@@ -22,7 +22,7 @@ public class ClientController {
 
     @GetMapping("/start")
     public ResponseEntity<FinancialClientDto> startLoad() {
-        return ResponseEntity.ok(collector.load());
+        return ResponseEntity.ok(collector.getClient());
     }
 
     @GetMapping("/startComletableFuture")

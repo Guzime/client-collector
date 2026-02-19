@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class FinancialClientDto {
 
@@ -47,6 +47,8 @@ public class FinancialClientDto {
 
     @JsonProperty("residencyCountry")
     private String residencyCountry;
+
+    private List<AccountDto> accounts;
 
     @JsonProperty("accountNumber")
     private String accountNumber;
