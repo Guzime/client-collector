@@ -26,7 +26,7 @@ public class ClientController {
     }
 
     @GetMapping("/startComletableFuture")
-    public ResponseEntity<List<FinancialClientDto>> startLoadCompletableFuture() {
+    public ResponseEntity<FinancialClientDto> startLoadCompletableFuture() {
         return ResponseEntity.ok(collector.async());
     }
 }

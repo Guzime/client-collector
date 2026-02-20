@@ -18,46 +18,39 @@ import java.util.concurrent.CompletableFuture;
 public class Collector {
 
     //todo нужно реализовать 3 примера :
-    // 1. CompletableFuture + threadPool
+    // 1. CompletableFuture ✅ + threadPool
     // 2. Virtual Threads
     // 3. Web Client
     public FinancialClientDto getClient() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<FinancialClientDto> generateClient = restTemplate
+        ResponseEntity<FinancialClientDto> client = restTemplate
                 .getForEntity("http://localhost:8089/client", FinancialClientDto.class);
-        log.info("Accept response {}", generateClient);
-        return generateClient.getBody();
+        log.info("Accept client {}", client);
+        return client.getBody();
     }
 
     public List<AccountDto> getAccount() {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<AccountDto[]> generateClient = restTemplate
+        ResponseEntity<AccountDto[]> accounts = restTemplate
                 .getForEntity("http://localhost:8089/account", AccountDto[].class);
-        log.info("Accept response {}", generateClient);
-        return Arrays.asList(generateClient.getBody());
+        log.info("Accept account {}", accounts);
+        return Arrays.asList(accounts.getBody());
     }
 
-    //todo ненадо цепочку вызово делать
-    @SneakyThrows
-    public List<FinancialClientDto> async() {
-        log.info("Before call future");
-        List<FinancialClientDto> clients = new ArrayList<>();
+    public FinancialClientDto async() {
         CompletableFuture<FinancialClientDto> futureClient = CompletableFuture
                 .supplyAsync(this::getClient);
         CompletableFuture<List<AccountDto>> futureAccount = CompletableFuture
                 .supplyAsync(this::getAccount);
 
-        CompletableFuture.allOf(futureAccount, futureClient)
-                        .thenApply(x -> {
-                            FinancialClientDto financialClientDto = futureClient.join();
-                            List<AccountDto> accounts = futureAccount.join();
-                            financialClientDto.setAccounts(accounts);
-                            return financialClientDto;
-                        });
+        CompletableFuture<FinancialClientDto> futureEnrichClient = CompletableFuture.allOf(futureAccount, futureClient)
+                .thenApply(x -> {
+                    FinancialClientDto financialClientDto = futureClient.join();
+                    List<AccountDto> accounts = futureAccount.join();
+                    financialClientDto.setAccounts(accounts);
+                    return financialClientDto;
+                });
 
-        Thread.sleep(2000);
-        log.info("It's time to wakeup!");
-
-        return clients;
+        return futureEnrichClient.join();
     }
 }
