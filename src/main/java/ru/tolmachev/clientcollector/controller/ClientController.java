@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.tolmachev.clientcollector.domain.ClientDto;
 import ru.tolmachev.clientcollector.domain.FinancialClientDto;
 import ru.tolmachev.clientcollector.service.Collector;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,7 +20,7 @@ public class ClientController {
     }
 
     @GetMapping("/start")
-    public ResponseEntity<FinancialClientDto> startLoad() {
+    public ResponseEntity<ClientDto> startLoad() {
         return ResponseEntity.ok(collector.getClient());
     }
 
