@@ -38,7 +38,7 @@ public class Collector {
 
     /**
      * Chain two independent http call with using CompleatbleFuture
-     * @return
+     * @return Full client info
      */
     public FinancialClientDto async() {
         //todo example error + timeout

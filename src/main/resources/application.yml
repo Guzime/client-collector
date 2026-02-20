@@ -1,3 +1,16 @@
 spring:
   application:
     name: clientcollector
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}?currentSchema=client_collector
+    username: ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  flyway:
+    schemas: client_collector
+    user: ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:postgres}
+    locations: classpath:db/migration
+logging:
+  level:
+    org.flywaydb: DEBUG
